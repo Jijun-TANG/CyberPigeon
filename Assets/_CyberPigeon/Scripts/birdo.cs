@@ -8,11 +8,7 @@ public class birdo : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField]
     private float UpForce = 4.0f;
-    private float multiplier = 5.0f;
-    private float glidingForce;
-    private float horizontalForce;
-    private float verticalOffset = 1f;
-    private float horizontalOffset = 10f;
+    private float pointsEarned = 0.0f;
 
     void Start()
     {
@@ -46,6 +42,13 @@ public class birdo : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collision detected");     
+        Debug.Log("Collision detected");
+        if(collision.gameObject.tag == "Pipe"){
+            pointsEarned += 1.0f;
+            Debug.Log("Points earned: " + pointsEarned);
+        }
+        else{
+            Debug.Log("Game Over");
+        }
     }
 }

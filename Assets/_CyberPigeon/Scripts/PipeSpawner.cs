@@ -13,10 +13,12 @@ public class PipeSpawner : MonoBehaviour
 
 
     [SerializeField]
-    private float spawnRate = 4;
+    private float spawnRate = 3.5f;
     private float heightOffset = 2.5f;
     private float verticalOffset = 8.0f;
-    private float horizontalGap = 12.0f;
+
+    private float leftBound = -12.0f;
+    private float rightBound = 15.0f;
 
     private float upperBound = 1.0f;
     private float lowerBound = -3f;
@@ -29,7 +31,6 @@ public class PipeSpawner : MonoBehaviour
         Vector3 randomPosition;
         if(pipes.Count == 0){
             randomPosition = new Vector3(transform.position.x + verticalOffset, UnityEngine.Random.Range(Math.Max(lowestPoint, lowerBound), Math.Min(highestPoint, upperBound)), transform.position.z);
-        
         }
         else{
             GameObject lastElemnt = pipes.Last();
@@ -45,12 +46,12 @@ public class PipeSpawner : MonoBehaviour
         GameObject temp = this.pipes[0];
         this.pipes.RemoveAt(0);
         if(pipes.Count == 0){
-            Vector3 new_position = new Vector3(transform.position.x + verticalOffset + 5.0f, UnityEngine.Random.Range(Math.Max(lowerBound, transform.position.y - heightOffset), Math.Min(upperBound, transform.position.y + heightOffset)), temp.transform.position.z);
+            Vector3 new_position = new Vector3(rightBound + 1.0f, UnityEngine.Random.Range(Math.Max(lowerBound, transform.position.y - heightOffset), Math.Min(upperBound, transform.position.y + heightOffset)), temp.transform.position.z);
             temp.transform.position = new_position;
         }
         else{
             GameObject lastElemnt = pipes.Last();
-            Vector3 new_position = new Vector3(lastElemnt.transform.position.x + verticalOffset + 1.0f, UnityEngine.Random.Range(Math.Max(lowerBound, lastElemnt.transform.position.y - heightOffset), Math.Min(upperBound, lastElemnt.transform.position.y + heightOffset)), lastElemnt.transform.position.z);
+            Vector3 new_position = new Vector3(Math.Max(lastElemnt.transform.position.x + verticalOffset + 1.0f, rightBound), UnityEngine.Random.Range(Math.Max(lowerBound, lastElemnt.transform.position.y - heightOffset), Math.Min(upperBound, lastElemnt.transform.position.y + heightOffset)), lastElemnt.transform.position.z);
             temp.transform.position = new_position;
         }
         this.pipes.Add(temp);
@@ -64,22 +65,22 @@ public class PipeSpawner : MonoBehaviour
     }
 
 
-    void destroyOutOfBoundaryPipes()
-    {
-        bool listScan = true;
-        while(this.pipes.Count > 0 && listScan)
-        {
-            if (this.pipes[0].transform.position.x < -verticalOffset)
-            {
-                Destroy(this.pipes[0]);
-                this.pipes.RemoveAt(0);
-            }
-            else
-            {
-                listScan = false;
-            }
-        }
-    }
+    // void destroyOutOfBoundaryPipes()
+    // {
+    //     bool listScan = true;
+    //     while(this.pipes.Count > 0 && listScan)
+    //     {
+    //         if (this.pipes[0].transform.position.x < -verticalOffset)
+    //         {
+    //             Destroy(this.pipes[0]);
+    //             this.pipes.RemoveAt(0);
+    //         }
+    //         else
+    //         {
+    //             listScan = false;
+    //         }
+    //     }
+    // }
 
     void Update()
     {
@@ -89,7 +90,7 @@ public class PipeSpawner : MonoBehaviour
         }
         else
         {   
-            if(this.pipes.Count > 0 && this.pipes[0].transform.position.x < -verticalOffset)
+            if(this.pipes.Count > 0 && this.pipes[0].transform.position.x <= leftBound)
             {
                 SwapPipe();
             }
