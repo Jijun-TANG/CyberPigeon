@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pigeonramier_0: -2933658710940838272
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
